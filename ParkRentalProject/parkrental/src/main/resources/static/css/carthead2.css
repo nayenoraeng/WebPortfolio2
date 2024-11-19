@@ -1,0 +1,35 @@
+header {
+    position: relative; /* 자식 요소에 대한 위치 설정 */
+    height: 350px; /* 헤더 높이 설정 (원래 600px에서 500px로 조정) */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    overflow: hidden; /* 자식 요소가 헤더 밖으로 나가지 않도록 설정 */
+    background-image: url('/image/park.jpg'); /* 배경 이미지 추가 */
+    background-size: cover; /* 가로와 세로를 모두 채우지만, 비율을 유지 */
+    background-position: top; /* 배경 이미지 상단을 고정 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+}
+.header .background {
+    position: absolute; /* 절대 위치 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(8px); /* 블러 효과 */
+    z-index: 1; /* 블러 배경이 텍스트 뒤에 있도록 설정 */
+}
+
+/* 헤더 텍스트 스타일 */
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+   
+    

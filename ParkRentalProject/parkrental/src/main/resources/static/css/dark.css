@@ -1,0 +1,32 @@
+/* dark.css */
+body.dark-mode {
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text color */
+}
+
+body.dark-mode header,
+body.dark-mode nav {
+    background-color: #1e1e1e; /* Dark header */
+}
+
+body.dark-mode a {
+    color: #bb86fc; /* Light link color */
+}
+
+/* Adjust the dropdown menu */
+body.dark-mode .dropdown {
+    background-color: #333; /* Dark dropdown background */
+    color: #fff; /* Light dropdown text */
+}
+
+body.dark-mode .dropdown a {
+    color: #ffffff; /* Light dropdown link color */
+}
+
+/* Other elements that need dark mode styles */
+body.dark-mode .center-menu,
+body.dark-mode .right-menu {
+    background-color: #1e1e1e; /* Background for menus */
+}
+
+/* Add any other specific styles you want for dark mode here */

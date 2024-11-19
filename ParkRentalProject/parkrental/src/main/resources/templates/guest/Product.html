@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.productName} + ' - 제품 상세 정보'">제품 상세 정보</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-info-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .product-info-container img {
+            margin: 0 auto;
+            display: block;
+        }.//'''
+        .card-img-top {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .card {
+            margin-bottom: 20px;
+            margin: 10px;
+            flex: 1 1 20%;
+        }
+        .container {
+            padding: 0 15px;
+        }
+        .notice {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            +color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5 product-info-container">
+    <h1 class="text-center mb-5" th:text="${product.productName}">제품 이름</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <img th:src="@{'/image/rental/' + ${product.productName.toLowerCase()} + '.png'}" class="img-fluid" alt="제품 이미지">
+        </div>
+        <div class="col-md-6">
+            <h2>제품 정보</h2>
+            <p><strong>제품명:</strong> <span th:text="${product.productName}">제품 이름</span></p>
+            <p><strong>
+                <span th:text="${product.productName == '일회용품세트(판매)' || product.productName == '우산(판매)' ? '금액: ' : '대여료: '}"></span>
+            </strong>
+                <span th:text="${product.cost + '원'}">가격 정보 없음</span></p>
+            <p><strong>재고:</strong>
+                <span th:if="${product.quantity > 0}" th:text="${product.quantity} + ' 개'">0 개</span>
+                <span th:if="${product.quantity == 0}">재고 없음</span>
+            </p>
+            <!-- 고정된 주의사항 텍스트(판매 물품은 제외) -->
+            <div class="notice" th:if="${product.productName != '일회용품세트(판매)' && product.productName != '우산(판매)'}">
+                <p>※ 파손 시 배상 책임이 있을 수 있습니다.</p>
+                <p>※ 물품 사용 후 반납 시점에 추가 비용이 발생할 수 있습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 뒤로가기 버튼 -->
+<div class="text-center mt-4 d-flex justify-content-center">
+    <a th:href="@{/ParkDetail(parkId=${product.parkList.parkId})}" class="btn btn-primary">돌아가기</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

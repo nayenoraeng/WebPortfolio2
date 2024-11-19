@@ -1,0 +1,72 @@
+
+/* 날씨 정보를 담는 컨테이너 */
+.weather-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px; /* 너비 조정 가능 */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.current-weather {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center; /* 가운데 정렬 추가 */
+    margin: 0 auto; /* 중앙 정렬 추가 */
+}
+
+.hourly-forecast {
+    margin-top: 20px;
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 중앙 정렬 */
+}
+
+.forecast-graph {
+    display: flex;
+    overflow: hidden; /* 슬라이더 내부 스크롤 숨김 */
+    width: 700px; /* 한 화면에 보여줄 공간 설정 */
+}
+
+.forecast-item {
+    text-align: center;
+    flex-shrink: 0; /* flex item이 축소되지 않도록 설정 */
+    width: 100px; /* 각 예보의 너비 */
+}
+
+.forecast-item .icon {
+    width: 50px; /* 아이콘 크기 조정 */
+    height: 50px;
+    margin: 5px auto;
+    background-size: cover;
+}
+
+.forecast-item .time {
+    font-size: 0.8rem;
+}
+
+.forecast-item .temp {
+    font-size: 1rem;
+}
+
+.prev-btn, .next-btn {
+    background-color: #fff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px; /* 버튼에 여백 추가 */
+}
+
+.prev-btn:disabled, .next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.temperature {
+    color: black; /* 폰트 색상을 검정색으로 설정 */
+}
+

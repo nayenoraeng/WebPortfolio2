@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/noticeboar.css}" />
+    <link rel="stylesheet" th:href="@{/css/noticewrite.css}" />
+</head>
+
+<body>
+
+<!-- 헤더랑 네비바 섹션 -->
+<header>
+    <nav>
+        <div class="logo">NATIONAL PARK</div>
+        <ul class="center-menu">
+            <li><a href="#">소개</a></li>
+            <li>
+                <a href="#">공원 검색</a>
+                <ul class="dropdown">
+                    <li><a href="#">국립공원</a></li>
+                    <li><a href="#">자연공원</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">물품 대여</a>
+                <ul class="dropdown">
+                    <li><a href="#">텐트</a></li>
+                    <li><a href="#">자전거</a></li>
+                    <li><a href="#">배낭</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">게시판</a>
+                <ul class="dropdown">
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">문의사항</a></li>
+                    <li><a href="#">커뮤니티</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="right-menu">
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+        </ul>
+    </nav>
+    <div class="background-text-wrapper">
+        <h1 style="all: unset; font-size: 50px; color: white;">A NATIONAL PARK</h1>
+        <p>공기 좋고 물 좋은 공원에서 데이트해요!!!</p>
+    </div>
+</header>
+<br/><br/><br/>
+<div class="container">
+    <h1>게시판 글쓰기</h1>
+
+    <!-- 게시판 선택 -->
+    <form action="#" method="POST" enctype="multipart/form-data" th:action="@{/guest/noticeList}" th:object="${announcement}">
+        <!-- 작성자 입력 -->
+        <div class="form-group">
+            <label for="author">작성자:</label>
+            <input type="text" id="author" name="username" value="admin" readonly>
+        </div>
+
+        <!-- 제목 입력 -->
+        <div class="form-group">
+            <label for="title">제목을 입력해 주세요.</label>
+            <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력해 주세요." required>
+        </div>
+
+        <!-- 내용 입력 및 이미지 미리보기 -->
+        <div class="form-group">
+            <label for="content">내용을 입력해 주세요.</label>
+            <textarea id="content" th:field="*{content}" rows="10" placeholder="내용을 입력해 주세요." required></textarea>
+            <!-- 이미지 미리보기 영역 -->
+            <div class="form-group">
+                <label>이미지 미리보기:</label>
+                <img id="imagePreview" style="max-width: 100%; display: none;" alt="첨부 이미지"/>
+            </div>
+        </div>
+
+
+        <!-- 파일 첨부 -->
+        <div class="form-group">
+            <label for="inquiry_ofile">파일 첨부:</label>
+            <input type="file" id="inquiry_ofile" name="inquiry_ofile" accept="image/*" />
+        </div>
+
+        <!-- 버튼 -->
+        <div class="form-group btn-group">
+            <button type="submit" class="btn btn-primary btn-custom">등록</button>
+            <button type="button" class="btn btn-secondary btn-custom" onclick="location.href='/guest/noticeList'">목록 바로가기</button>
+        </div>
+    </form>
+</div>
+<br/><br/><br/>
+
+<!-- 풋터 섹션 -->
+<footer>
+    <p>풋터입니다. 추가 사항을 입력하세요.</p>
+    <ul>
+        <li>항목 1</li>
+        <li>항목 2</li>
+        <li>항목 3</li>
+        <li>항목 4</li>
+    </ul>
+    <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+</footer>
+
+<script>
+    // 이미지 파일이 선택되면 미리보기와 내용에 이미지 태그 삽입
+    document.getElementById('inquiry_ofile').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imagePreview = document.getElementById('imagePreview');
+                const contentField = document.getElementById('content');
+
+                // 이미지 미리보기 설정
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+
+                // 이미지 태그를 내용에 삽입
+                contentField.value += `\n<img src="${e.target.result}" alt="첨부 이미지"/>`;
+            }
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

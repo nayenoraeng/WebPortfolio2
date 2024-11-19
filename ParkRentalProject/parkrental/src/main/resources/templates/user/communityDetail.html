@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 상세보기</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/communityboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/communitywrite.css}" />
+    <link rel="stylesheet" th:href="@{/css/Like.css}" />
+</head>
+<body>
+
+<!-- 헤더와 네비게이션 바 섹션 -->
+<header>
+    <nav>
+        <div class="logo">NATIONAL PARK</div>
+        <ul class="center-menu">
+            <li><a href="#">소개</a></li>
+            <li>
+                <a href="#">공원 검색</a>
+                <ul class="dropdown">
+                    <li><a href="#">국립공원</a></li>
+                    <li><a href="#">자연공원</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">물품 대여</a>
+                <ul class="dropdown">
+                    <li><a href="#">텐트</a></li>
+                    <li><a href="#">자전거</a></li>
+                    <li><a href="#">배낭</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">게시판</a>
+                <ul class="dropdown">
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">문의사항</a></li>
+                    <li><a href="#">커뮤니티</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="right-menu">
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+        </ul>
+    </nav>
+    <div class="background-text-wrapper">
+        <h1 style="all: unset; font-size: 50px; color: white;">A NATIONAL PARK</h1>
+        <p>공기 좋고 물 좋은 공원에서 데이트해요!!!</p>
+    </div>
+</header>
+<br/><br/><br/>
+<div class="container">
+    <h1>커뮤니티 상세보기</h1>
+
+    <!-- 작성자 -->
+    <div class="form-group">
+        <label for="username">작성자:</label>
+        <span id="username" th:text="${community.username}">admin</span>
+    </div>
+
+    <!-- 제목 -->
+    <div class="form-group">
+        <label for="title">제목:</label>
+        <h2 id="title" th:text="${community.title}">커뮤니티 제목</h2>
+    </div>
+
+    <!-- 내용 -->
+    <div class="form-group">
+        <label for="content">내용:</label>
+        <div id="content" th:utext="${community.content}"></div>
+    </div>
+
+    <!-- 첨부 파일 (이미지 포함) -->
+    <div class="form-group">
+        <label>첨부 파일:</label>
+        <span th:if="${community.ofile != null}">
+            <!-- 파일이 이미지인 경우 -->
+            <img th:if="${community.ofile matches '.*\\.(jpg|jpeg|png|gif)'}"
+                 th:src="@{'/uploads/' + ${community.ofile}}"
+                 style="max-width: 100%; display: block;" alt="첨부 이미지"/>
+
+            <!-- 파일이 이미지가 아닌 경우 다운로드 링크 제공 -->
+            <a th:if="${!(community.ofile matches '.*\\.(jpg|jpeg|png|gif)')}"
+               th:href="@{'/files/{filename}(filename=${community.sfile})}"
+               th:text="${community.ofile}"></a>
+        </span>
+        <span th:if="${community.ofile == null}">첨부 파일 없음</span>
+    </div>
+    <br/>
+
+    <!-- 좋아요 버튼 -->
+    <form th:action="@{/user/communityDetail/{id}/like(id=${community.idx})}" method="post" class="like-button">
+        <input type="hidden" name="username" th:value="${loggedInUsername}"/>  <!-- 현재 로그인한 사용자 이름 -->
+        <button type="submit" class="like-button">
+            <span th:if="${liked}" class="like-icon like-icon-filled">♥</span>  <!-- 채워진 하트 -->
+            <span th:unless="${liked}" class="like-icon like-icon-empty">♡</span>  <!-- 빈 하트 -->
+        </button>
+    </form>
+
+
+    <!-- 총 좋아요 수 표시 -->
+    <p class="like-count">좋아요 수: <span th:text="${likeCount}"></span></p>
+    <br/><br/><br/>
+    <!-- 조회수 -->
+    <div class="form-group">
+        <label for="viewCount">조회수:</label>
+        <span id="viewCount" th:text="${community.viewCount}">10</span>
+    </div>
+
+    <!-- 댓글 작성 폼 -->
+    <textarea id="commentText" placeholder="댓글을 입력하세요"></textarea>
+    <button id="submitComment">댓글 작성</button>
+
+    <!-- 댓글 리스트 -->
+    <div id="commentList">
+        <!-- 서버로부터 받은 댓글들을 표시할 부분 -->
+    </div>
+    <script>
+        // CSRF Token setup for Spring Security
+        const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+        document.getElementById("submitComment").addEventListener("click", function() {
+            const commentText = document.getElementById("commentText").value;
+            const writer = document.getElementById("loggedInUsername").value;
+            const communityId = /* Get the community ID, e.g., from the URL or a hidden input */;
+
+            // Validate the comment text
+            if (commentText.trim() === "") {
+                alert("댓글을 입력하세요.");
+                return;
+            }
+
+            // Ajax request to submit the comment
+            fetch(`/user/community/${communityId}/comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    [csrfHeader]: csrfToken  // Include CSRF token in the header
+                },
+                body: JSON.stringify({
+                    writer: writer,
+                    commentText: commentText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert("댓글 등록 중 오류 발생: " + data.error);
+                } else {
+                    // Clear the comment input field
+                    document.getElementById("commentText").value = "";
+
+                    // Add the new comment to the comments section
+                    const commentList = document.getElementById("commentList");
+                    const newComment = document.createElement("li");
+                    newComment.innerHTML = `<strong>${data.writer}</strong> - ${data.commentText}`;
+                    commentList.appendChild(newComment);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+
+
+
+    <!-- 버튼 -->
+    <div class="form-group btn-group">
+        <button type="button" class="btn btn-secondary btn-custom" onclick="location.href='/guest/communityList'">목록 바로가기</button>
+    </div>
+</div>
+<br/><br/><br/>
+
+
+
+<!-- 풋터 섹션 -->
+<footer>
+    <p>풋터입니다. 추가 사항을 입력하세요.</p>
+    <ul>
+        <li>항목 1</li>
+        <li>항목 2</li>
+        <li>항목 3</li>
+        <li>항목 4</li>
+    </ul>
+    <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+</footer>
+
+</body>
+</html>

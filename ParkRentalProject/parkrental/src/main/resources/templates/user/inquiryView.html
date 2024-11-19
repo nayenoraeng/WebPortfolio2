@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 상세보기</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/inquiryboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/inquirywrite.css}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function deletePost(idx) {
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                $.ajax({
+                    url: '/user/inquiryDelete/' + idx,
+                    type: 'GET',
+                    success: function(response) {
+                        // 서버로부터의 응답 처리
+                        // 예: 메시지와 URL을 alert로 표시하고, 이동할 수 있음
+                        alert(response.message); // 모델에 담긴 메시지를 표시
+                        window.location.href = response.searchUrl; // 이동할 URL로 리다이렉트
+                    },
+                    error: function() {
+                        alert("게시글 삭제 중 오류가 발생했습니다.");
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+<!-- 헤더 섹션 -->
+<header>
+    <nav>
+        <div class="logo">NATIONAL PARK</div>
+        <ul class="center-menu">
+            <li><a href="#">소개</a></li>
+            <li>
+                <a href="#">공원 검색</a>
+                <ul class="dropdown">
+                    <li><a th:href="@{/ParkList?category=natural}">자연/휴양 공원</a></li>
+                    <li><a th:href="@{/ParkList?category=urban}">도시 생활 공원</a></li>
+                    <li><a th:href="@{/ParkList?category=special}">특수 목적 공원</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">물품 대여</a>
+                <ul class="dropdown">
+                    <li><a href="#">텐트</a></li>
+                    <li><a href="#">자전거</a></li>
+                    <li><a href="#">배낭</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">게시판</a>
+                <ul class="dropdown">
+                    <li><a href="/guest/noticeList">공지사항</a></li>
+                    <li><a href="/guest/inquiryList">문의사항</a></li>
+                    <li><a href="#">커뮤니티</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="right-menu">
+            <!-- Translation buttons for the whole page -->
+            <li class="language-buttons">
+                <button id="translate-en">English</button>
+                <button id="translate-ja">Japanese</button> <!-- 일본어 버튼으로 변경 -->
+                <button id="translate-ko">Korean</button>
+            </li>
+
+            <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Login}">로그인</a></li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Signup}">회원가입</a></li>
+            <!-- 로그인 시 메뉴 변경 -->
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/guest/Logout}" onclick="deleteJWTCookie(); return confirm('로그아웃하시겠습니까?')">로그아웃</a>
+            </li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/user/userpage}">마이페이지</a></li>
+            <li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/seller/sellerpage}">판매자페이지</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/userlist}">회원관리</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="container">
+        <h1>문의사항 상세보기</h1>
+        <input type="hidden" name="idx" th:value="${inquiries.idx}"> <!-- 게시글 ID 히든 필드 -->
+
+        <table class="table table-bordered">
+            <colgroup>
+                <col width="20%" />
+                <col width="30%" />
+                <col width="20%" />
+                <col width="*" />
+            </colgroup>
+            <tbody>
+            <tr>
+                <th class="text-center" style="vertical-align:middle;">제목</th>
+                <td colspan="3" th:text="${inquiries.title}"></td>
+            </tr>
+            <tr>
+                <th class="text-center" style="vertical-align:middle;">작성자</th>
+                <td th:text="${inquiries.username}"></td>
+                <th class="text-center" style="vertical-align:middle;">작성일</th>
+                <td th:text="${#temporals.format(inquiries.postdate, 'yyyy.MM.dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th class="text-center" style="vertical-align:middle;">조회수</th>
+                <td th:text="${inquiries.viewCount}"></td>
+                <th class="text-center" style="vertical-align:middle;">답변</th>
+                <td>
+                    <span th:if="${inquiries.responses > 0}">답변 완료</span>
+                    <span th:if="${inquiries.responses == 0}">답변 대기</span>
+                </td>
+            </tr>
+            <tr style="height: 300px">
+                <th class="text-center" style="vertical-align:middle;">내용</th>
+                <td colspan="3">
+                    <div th:utext="${inquiries.content}"></div>
+                    <!-- 이미지 첨부파일이 있을 경우 내용에 이미지 미리보기 표시 -->
+                    <div th:if="${inquiries.sfile != null and inquiries.sfile.trim() != ''}">
+                    <span th:if="${@inquiryService.isImageFile(inquiries.sfile)}">
+                        <!-- 이미지 파일일 경우 내용에 미리보기 표시 -->
+                        <div>
+                            <img th:src="@{/files/} + ${inquiries.sfile}" alt="첨부된 이미지" style="max-width: 100%; max-height: 400px;" />
+                        </div>
+                    </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-center" style="vertical-align:middle;">첨부파일</th>
+                <td colspan="3">
+                    <div th:if="${inquiries.sfile != null and inquiries.sfile.trim() != ''}">
+                    <span th:if="${@inquiryService.isImageFile(inquiries.sfile)}">
+                        <!-- 이미지 파일일 경우, 링크 클릭 시 바로 다운로드 -->
+                        <a th:href="@{/files/} + ${inquiries.sfile}" th:download="${inquiries.sfile}" th:text="${inquiries.sfile}">첨부된 이미지 다운로드</a>
+                    </span>
+                        <span th:if="${!@inquiryService.isImageFile(inquiries.sfile)}">
+                        <!-- 이미지가 아닌 파일일 경우, 링크 클릭 시 바로 다운로드 -->
+                        <a th:href="@{/files/} + ${inquiries.sfile}" th:download="${inquiries.sfile}" th:text="${inquiries.sfile}">첨부파일 다운로드</a>
+                    </span>
+                    </div>
+                    <div th:if="${inquiries.sfile == null or inquiries.sfile.trim() == ''}">
+                        <p>첨부파일이 없습니다.</p>
+                    </div>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            <button onclick="location.href='/guest/inquiryList'" class="btn btn-secondary">목록으로 돌아가기</button>
+            <button sec:authorize="hasRole('ADMIN')"
+                    th:onclick="|location.href='@{/admin/inquiryReply/{idx}(idx=${inquiries.idx})}'|">
+                답글달기
+            </button>
+            <button th:onclick="|location.href='@{/user/inquiryEdit/{idx}(idx=${inquiries.idx})}'|">수정하기</button>
+            <button th:onclick="'deletePost(' + ${inquiries.idx} + ')'">게시글 삭제</button>
+        </div>
+    </div>
+</main>
+
+<!-- 풋터 섹션 -->
+<footer>
+    <p>풋터입니다. 추가 사항을 입력하세요.</p>
+    <ul>
+        <li>항목 1</li>
+        <li>항목 2</li>
+        <li>항목 3</li>
+        <li>항목 4</li>
+    </ul>
+    <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+</footer>
+
+</body>
+</html>

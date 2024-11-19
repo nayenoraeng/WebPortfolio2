@@ -1,0 +1,161 @@
+header {
+    position: relative; /* 자식 요소에 대한 위치 설정 */
+    height: 350px; /* 헤더 높이 설정 (원래 600px에서 500px로 조정) */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    overflow: hidden; /* 자식 요소가 헤더 밖으로 나가지 않도록 설정 */
+    background-image: url('/image/park.jpg'); /* 배경 이미지 추가 */
+    background-size: cover; /* 가로와 세로를 모두 채우지만, 비율을 유지 */
+    background-position: top; /* 배경 이미지 상단을 고정 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+}
+.header .background {
+    position: absolute; /* 절대 위치 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(8px); /* 블러 효과 */
+    z-index: 1; /* 블러 배경이 텍스트 뒤에 있도록 설정 */
+}
+
+/* 헤더 텍스트 스타일 */
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+    table {
+        width: 100%;
+        max-width: 1200px; /* 테이블의 최대 너비 설정 */
+        margin: 20px auto; /* 상하로 20px, 좌우는 자동으로 정렬 */
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 15px; /* 패딩을 증가시켜 셀 크기 증가 */
+        text-align: left;
+        border-bottom: 2px solid green; /* 경계선 두께 증가 */
+        font-size: 1.1rem; /* 폰트 크기 증가 */
+    }
+
+    th {
+        background-color: green;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .category {
+        color: red;
+        font-weight: bold;
+    }
+
+    .notice {
+        color: #555;
+    }
+
+    .title {
+        color: blue;
+        font-weight: bold;
+    }
+
+    .views {
+        text-align: right;
+    }
+
+    .highlight {
+        font-weight: bold;
+        background-color: #ffeeba;
+    }
+
+    .new {
+        color: green;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center; /* 버튼을 수평 중앙에 배치 */
+        margin: 20px 0; /* 위아래 여백 추가 */
+    }
+
+    .write-button, .edit-button {
+        padding: 10px 20px; /* 버튼 여백 */
+        font-size: 1.1rem; /* 폰트 크기 */
+        color: white; /* 글자 색상 */
+        background-color: green; /* 배경 색상 */
+        border: none; /* 테두리 제거 */
+        border-radius: 5px; /* 모서리 둥글게 */
+        cursor: pointer; /* 마우스 커서 포인터로 변경 */
+        margin: 0 10px; /* 버튼 간의 간격 */
+        transition: background-color 0.3s; /* 배경 색상 전환 효과 */
+    }
+
+    .write-button:hover, .edit-button:hover {
+        background-color: darkgreen; /* 호버 시 배경 색상 변경 */
+    }
+    /* 페이징과 검색 바 스타일 */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .pagination li {
+        margin: 0 5px;
+        font-size: 1.2rem;
+    }
+
+    .pagination a {
+        color: green;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid green;
+        border-radius: 5px;
+    }
+
+    .pagination a:hover {
+        background-color: green;
+        color: white;
+    }
+
+    .pagination .active a {
+        background-color: darkgreen;
+        color: white;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .search-container select, .search-container input, .search-container button {
+        font-size: 1rem;
+        padding: 10px;
+        margin: 0 5px;
+        border: 1px solid green;
+        border-radius: 5px;
+    }
+
+    .search-container button {
+        background-color: green;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .search-container button:hover {
+        background-color: darkgreen;
+    }

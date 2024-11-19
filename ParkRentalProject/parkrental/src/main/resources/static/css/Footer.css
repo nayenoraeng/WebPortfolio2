@@ -1,0 +1,179 @@
+/* 기본 요소 재설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 바디 기본 스타일 설정 */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* 탐색 모음 섹션 */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    color: white;
+}
+
+/* 로고 스타일 */
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    position: relative; /* 명시적으로 position 설정 */
+        z-index: 200; /* 로그인과 회원가입이 center-menu 위로 올라오도록 높은 값 설정 */
+}
+/* 중앙 메뉴와 오른쪽 메뉴 스타일 */
+nav .center-menu,
+nav .right-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    position: relative; /* 명시적으로 position 설정 */
+    z-index: 200; /* 로그인과 회원가입이 center-menu 위로 올라오도록 높은 값 설정 */
+
+}
+/* 중앙 메뉴 여백 조정 */
+nav .center-menu {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 네비게이션 링크 스타일 */
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* 네비게이션 항목 마우스 오버 효과 */
+nav ul li:hover {
+    text-decoration: underline;
+}
+
+/* 헤더 섹션 */
+header {
+    position: relative; /* 자식 요소에 대한 위치 설정 */
+    height: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    overflow: hidden; /* 자식 요소가 헤더 밖으로 나가지 않도록 설정 */
+    background-image: url('/image/park.jpg'); /* 배경 이미지 추가 */
+    background-size: cover; /* 전체 덮도록 설정 */
+    background-position: center; /* 중앙 정렬 */
+}
+
+.header .background {
+    position: absolute; /* 절대 위치 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  
+    filter: blur(8px); /* 블러 효과 */
+    z-index: 1; /* 블러 배경이 텍스트 뒤에 있도록 설정 */
+}
+
+/* 헤더 텍스트 스타일 */
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* 바닥글 섹션 */
+footer {
+    background-color: #222;
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 20px;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+footer ul li {
+    color: #ccc;
+}
+/* 드롭다운 메뉴 스타일 */
+.center-menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.center-menu > li {
+    position: relative;
+    z-index: 100; /* 드롭다운 메뉴가 검색창보다 위에 오도록 z-index 설정 */
+}
+
+.center-menu > li > a {
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    padding: 10px;
+}
+
+.center-menu li:hover .dropdown {
+    display: flex; /* 드롭다운 메뉴를 가로로 정렬 */
+    justify-content: center; /* 메뉴를 가운데 정렬 */
+}
+
+.dropdown {
+    display: none; /* 기본적으로 드롭다운 숨기기 */
+    position: absolute;
+    top: 100%;
+    left: 50%; /* 부모 요소 기준으로 가운데 정렬 */
+    transform: translateX(-50%); /* 가운데 정렬을 위한 변환 */
+    background-color: rgba(255, 255, 255, 0.2); /* 배경 투명도 추가 */
+    backdrop-filter: blur(1px) saturate(180%); /* 블러와 포화도 효과 */
+    list-style-type: none;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 101; /* z-index 조정 */
+    flex-direction: column; /* 드롭다운 항목을 세로로 정렬 */
+    min-width: 120px; /* 드롭다운의 최소 너비 */
+}
+
+.dropdown li {
+    margin: 5px 0; /* 각 항목 간 간격 설정 */
+}
+
+.dropdown li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px; /* 드롭다운 항목 여백 */
+}
+
+.dropdown li a:hover {
+    text-decoration: underline;
+}
+
+/* 가운데 정렬 드롭다운 메뉴 유지 */
+.center-menu li {
+    text-align: center; /* 드롭다운을 가운데 정렬 */
+}
+

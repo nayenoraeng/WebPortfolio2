@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/inquiryboard.css}" />
+</head>
+<body>
+<script>
+    window.onload = function() {
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+    };
+</script>
+    <!-- 헤더랑 네비바 섹션 -->
+    <header>
+        <nav>
+            <div class="logo">NATIONAL PARK</div>
+
+            <!-- 중앙에 위치할 메뉴 -->
+            <ul class="center-menu">
+                <li><a href="#">소개</a></li>
+                <li>
+                    <a href="#">공원 검색</a>
+                    <ul class="dropdown">
+                        <li><a th:href="@{/ParkList?category=natural}">자연/휴양 공원</a></li>
+                        <li><a th:href="@{/ParkList?category=urban}">도시 생활 공원</a></li>
+                        <li><a th:href="@{/ParkList?category=special}">특수 목적 공원</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">물품 대여</a>
+                    <ul class="dropdown">
+                        <li><a href="#">텐트</a></li>
+                        <li><a href="#">자전거</a></li>
+                        <li><a href="#">배낭</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">게시판</a>
+                    <ul class="dropdown">
+                        <li><a href="/guest/noticeList">공지사항</a></li>
+                        <li><a href="/guest/inquiryList">문의사항</a></li>
+                        <li><a href="#">커뮤니티</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- 오른쪽에 위치할 메뉴 -->
+            <ul class="right-menu">
+                <li class="language-buttons">
+                    <button id="translate-en">English</button>
+                    <button id="translate-ja">Japanese</button> <!-- 일본어 버튼으로 변경 -->
+                    <button id="translate-ko">Korean</button>
+                </li>
+
+                <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Login}">로그인</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Signup}">회원가입</a></li>
+                <!-- 로그인 시 메뉴 변경 -->
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/guest/Logout}" onclick="deleteJWTCookie(); return confirm('로그아웃하시겠습니까?')">로그아웃</a>
+                </li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/userpage}">마이페이지</a></li>
+                <li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/seller/sellerpage}">판매자페이지</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/userlist}">회원관리</a></li>
+            </ul>
+        </nav>
+        <!-- 배경 이미지 위의 텍스트 -->
+        <div class="background-text-wrapper">
+            <h1 style="all: unset; font-size: 50px; color: white;">A NATIONAL PARK</h1>
+            <p>공기 좋고 물 좋은 공원에서 데이트해요!!!</p>
+        </div>
+    </header>
+    <div th:if="${message}"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inquiry : ${inquiries}">
+                    <td>
+                        <a th:href="@{/user/inquiryPass(idx=${inquiry.idx})}">
+                            <span th:if="${inquiry.responses == 1}" style="color: green;"> [답변완료]</span>
+                            <span th:if="${inquiry.groupOrd != null && inquiry.groupOrd > 0}" style="color: blue;"> [답변]</span>
+                            <span th:text="${inquiry.title}"></span>
+                        </a>
+                    </td>
+                    <td th:text="${inquiry.username}"></td>
+                    <td th:text="${#temporals.format(inquiry.postdate, 'yyyy.MM.dd HH:mm:ss')}"></td>
+                    <td th:text="${inquiry.viewCount}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 페이징 처리 -->
+    <ul class="pagination">
+        <!-- 첫 페이지 버튼 -->
+        <li th:class="${inquiries.hasPrevious() ? '' : 'disabled'}">
+            <a th:href="@{/guest/inquiryList(page=0, size=${inquiries.size})}" class="page-link">첫 페이지</a>
+        </li>
+
+        <li th:class="${inquiries.hasPrevious() ? 'page-item' : 'page-item disabled'}">
+            <a th:href="@{/guest/inquiryList(page=${inquiries.number - 1}, size=${inquiries.size})}" class="page-link">이전</a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(0, inquiries.totalPages - 1)}" class="page-item"
+            th:class="${inquiries.number == i ? 'active' : ''}">
+            <a th:href="@{/guest/inquiryList(page=${i}, size=${inquiries.size})}" class="page-link" th:text="${i + 1}"></a>
+        </li>
+
+        <li th:class="${inquiries.hasNext() ? 'page-item' : 'page-item disabled'}">
+            <a th:href="@{/guest/inquiryList(page=${inquiries.number + 1}, size=${inquiries.size})}" class="page-link">다음</a>
+        </li>
+
+        <!-- 마지막 페이지 버튼 -->
+        <li th:class="${inquiries.hasNext() ? '' : 'disabled'}">
+            <a th:href="@{/guest/inquiryList(page=${inquiries.totalPages - 1}, size=${inquiries.size})}" class="page-link">마지막 페이지</a>
+        </li>
+    </ul>
+
+    <div>
+        <span>총 게시글 수: <span th:text="${inquiries.totalElements}"></span></span>
+    </div>
+
+            <!-- 검색 바 -->
+            <div class="search-container">
+                <form action="/guest/inquiryList" method="get">
+                <select name="filter">
+                    <option value="제목만">제목만</option>
+                    <option value="내용만">내용만</option>
+                    <option value="작성자">작성자</option>
+                    <option value="제목과내용">제목과 내용</option>
+                </select>
+        
+                <input type="text" name="keyword" placeholder="검색어를 입력해 주세요" />
+        
+                <button type="submit">검색</button>
+                </form>
+            </div>
+            <div class="button-container">
+                <button class="write-button" onclick="location.href='/user/inquiryWrite'">글쓰기</button>
+            </div>
+
+
+    <!-- 풋터 섹션 -->
+    <footer>
+        <p>풋터입니다. 추가 사항을 입력하세요.</p>
+        <ul>
+            <li>항목 1</li>
+            <li>항목 2</li>
+            <li>항목 3</li>
+            <li>항목 4</li>
+        </ul>
+        <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+    </footer>
+
+</body>
+</html>

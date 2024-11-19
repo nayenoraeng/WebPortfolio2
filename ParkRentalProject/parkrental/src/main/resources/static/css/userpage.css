@@ -1,0 +1,276 @@
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    background-color: #343a40;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+.container {
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 520px;
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.signup-page {
+    text-align: center;
+    width: 100%;
+}
+
+
+
+.logo {
+    background-color: #343a40;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: aliceblue;
+}
+
+.validation-form .input-group {
+    display: flex;
+    align-items: center;
+}
+
+.validation-form .input-group label {
+    width: 120px;
+    text-align: right;
+}
+
+.validation-form .input-group input[type="text"],
+.validation-form .input-group input[type="email"],
+.validation-form .input-group input[type="password"],
+.validation-form .input-group input[type="tel"],
+.validation-form .input-group select {
+    padding: 5px;
+    border: 1px solid lightgray;
+    width: calc(80% - 180px);
+}
+
+.action-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links a {
+    color: blue;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.text-center a {
+    color: black; /* 로그인 페이지로 돌아가기 링크 색상 검정으로 변경 */
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+    color: darkred; /* 선택사항: 호버 시 색상 변경 */
+}
+
+.form-text {
+    white-space: nowrap;
+    overflow: visible;
+}
+
+.phone-input {
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: center;
+    box-sizing: border-box;
+}
+@font-face {
+font-family: 'SUIT';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2') format('woff2');
+font-weight: 700;
+font-style: normal;
+}
+
+.brand-font-700 {
+font-family: 'SUIT', sans-serif;
+font-weight: 700;
+font-size: 29px;
+}
+
+.centered-text {
+text-align: center;
+}
+
+.example-text {
+margin: 0;
+}
+
+.header {
+/* 헤더를 고정하고 상단에 배치하며, 다른 요소 위에 위치하도록 z-index 설정 */
+position: sticky;
+top: 0;
+z-index: 1000;
+background-color:#fff !important; /* 헤더 배경색을 어두운 회색으로 설정 */
+border: none; /* 헤더의 테두리 제거 */
+
+top: 0;
+left: 0;
+width: 100%;
+height: 70px; /* 헤더 높이 설정 */
+box-sizing: border-box;
+}
+
+.nav {
+/* 내비게이션 바의 항목들을 가로로 배치하고, 간격을 설정하며, 중앙에 정렬 */
+display: flex;
+gap: 50px;
+align-items: center;
+justify-content: center;
+flex-grow: 1;
+}
+
+.nav a, .nav .dropdown-toggle {
+/* 내비게이션 링크와 드롭다운 버튼의 스타일 설정: 텍스트 색상, 폰트 크기, 중앙 정렬 */
+text-decoration: none;
+color: #4e4f4e;
+font-size: 16px;
+position: relative;
+background: none;
+display: flex;
+align-items: center;
+line-height: 1.5;
+letter-spacing: 0.5px;
+}
+
+.nav .dropdown-menu {
+/* 드롭다운 메뉴의 초기 상태를 숨김, 위치를 절대적으로 설정 */
+display: none;
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+top: 100%;
+z-index: 1000;
+}
+
+.nav .dropdown-menu.show {
+/* 드롭다운 메뉴가 표시되었을 때 display를 block으로 변경 */
+display: block;
+}
+
+.nav a:last-child {
+/* 내비게이션의 마지막 링크를 왼쪽으로 조금 이동 */
+margin-left: -5px;
+}
+
+.nav a.beta {
+/* beta 링크의 색상, 배경색, 여백 및 둥근 모서리 설정 */
+color: #2196F3;
+background-color: #E3F2FD;
+padding: 3px 5px;
+border-radius: 3px;
+}
+
+.nav .dropdown-toggle {
+/* 드롭다운 버튼의 테두리 색상 및 그림자 제거 */
+outline: none;
+box-shadow: none;
+border-color: transparent;
+}
+
+.nav .dropdown-toggle:hover {
+/* 드롭다운 버튼에 마우스를 올렸을 때 텍스트 색상을 파란색으로 변경 */
+color: #2196F3;
+}
+
+.auth {
+/* 인증 섹션의 항목들을 가로로 배치하고, 간격을 설정 */
+display: flex;
+gap: 15px;
+margin-left: 80px;
+}
+
+.auth a {
+/* 인증 링크의 스타일 설정: 텍스트 색상, 폰트 크기, 중앙 정렬 */
+text-decoration: none;
+color:#4e4f4e;
+font-size: 16px;
+display: flex;
+align-items: center;
+}
+
+.auth button {
+/* 인증 버튼의 배경 및 테두리 제거, 마우스 커서를 포인터로 설정 */
+background: none;
+border: none;
+padding: 0;
+cursor: pointer;
+}
+
+.dropdown-toggle::after {
+    content: none; /* 기본 화살표 숨김 */
+}
+.dropdown-menu .dropdown-item {
+    color: black; /* 드롭다운 아이템의 텍스트 색상 */
+}
+.dropdown-menu .dropdown-item:hover {
+    background-color: #060606; /* 원하는 색상으로 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+    display: inline-block; /* 인라인 블록 요소로 변경 */
+    padding: 5px 10px; /* 원하는 패딩 값으로 조정 */
+}
+
+main {
+flex: 1;
+padding-bottom: 80px; /* 푸터 높이만큼 여백 추가 */
+}
+/* 푸터 스타일 */
+footer {
+padding: 10px;
+text-align: center;
+background-color: #fff;
+border-top: none;
+width: 100%;
+
+bottom: 0;
+left: 0;
+box-sizing: border-box; /* 패딩을 너비에 포함시킴 */
+
+}
+
+/* 푸터 내비게이션 스타일 */
+footer .footer-nav {
+display: flex;
+justify-content: center;
+gap: 20px;
+margin-bottom: 10px;
+}
+
+/* 푸터 내비게이션 링크 스타일 */
+footer .footer-nav a {
+text-decoration: underline;
+color: #000; /* 흰색 배경에 맞는 색상 설정 */
+}
+
+/* SVG 아이콘 드롭다운 위치 수정 */
+.auth .dropdown-menu {
+right: 0; /* 오른쪽으로 정렬 */
+left: auto; /* 기본값은 왼쪽이므로 오른쪽으로 이동 */
+}
+/* SVG 아이콘 호버 색상 변경 */
+.auth .dropdown-toggle:hover svg {
+fill: #2196F3; /* SVG 아이콘의 색상 변경 */
+}
+.error-message {
+color:red;
+font-size:14px;
+}

@@ -1,0 +1,17 @@
+ #map {
+           width: 30%;  /* 지도 너비를 100%로 설정 */
+           height: 50px; /* 지도 높이를 500px로 설정 */
+           border: 1px solid #ddd; /* 지도의 경계선 추가 (선택 사항) */
+       }
+       .infowindow img {
+                   width: 100%;
+                   height: auto;
+               }
+                #moveToCurrentLocation {
+                           margin: 10px;
+                           padding: 10px;
+                           background-color: #008CBA;
+                           color: white;
+                           border: none;
+                           cursor: pointer;
+                       }

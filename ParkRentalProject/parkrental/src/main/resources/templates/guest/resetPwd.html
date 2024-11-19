@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/guest/resetPwd}" method="post">
+        <input type="hidden" name="email" th:value="${email}" />
+        <label for="newPwd">새 비밀번호:</label>
+        <input type="password" id="newPwd" name="newPwd" required />
+        <button type="submit">비밀번호 재설정</button>
+    </form>
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+    <div class="text-center mt-3">
+      <a th:href="@{/}">홈으로 돌아가기</a>
+    </div>
+</body>
+</html>

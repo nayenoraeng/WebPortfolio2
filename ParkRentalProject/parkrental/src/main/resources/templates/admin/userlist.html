@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유저리스트</title>
+</head>
+<body>
+<h1>회원 리스트</h1>
+
+<!-- ROLE_USER 회원 리스트 -->
+<h2>사용자 목록 (ROLE_USER)</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>인덱스</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>우편번호</th>
+        <th>주소</th>
+        <th>상세주소</th>
+        <th>가입일</th>
+        <th>권한</th>
+        <th>Provider</th>
+        <th>ProviderId</th>
+        <th>잠김</th>
+        <th>비밀번호 틀림횟수</th>
+        <th>잠김시간</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.idx}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.phoneNum}"></td>
+        <td th:text="${user.postcode}"></td>
+        <td th:text="${user.address}"></td>
+        <td th:text="${user.detailAddress}"></td>
+        <td th:text="${user.regidate}"></td>
+        <td th:text="${user.authority}"></td>
+        <td th:text="${user.enabled}"></td>
+        <td th:text="${user.provider}"></td>
+        <td th:text="${user.providerId}"></td>
+        <td th:text="${user.isLocked}"></td>
+        <td th:text="${user.failCount}"></td>
+        <td th:text="${user.lockTimes}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- ROLE_SELLER 회원 리스트 -->
+<h2>판매자 목록 (ROLE_SELLER)</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>인덱스</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>상호명</th>
+        <th>사업자 번호</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>우편번호</th>
+        <th>주소</th>
+        <th>상세주소</th>
+        <th>가입일</th>
+        <th>권한</th>
+        <th>Provider</th>
+        <th>ProviderId</th>
+        <th>잠김</th>
+        <th>비밀번호 틀림횟수</th>
+        <th>잠김시간</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="seller : ${sellers}">
+        <td th:text="${seller.idx}"></td>
+        <td th:text="${seller.username}"></td>
+        <td th:text="${seller.name}"></td>
+        <td th:text="${seller.businessName}"></td>
+        <td th:text="${seller.businessNum}"></td>
+        <td th:text="${seller.email}"></td>
+        <td th:text="${seller.phoneNum}"></td>
+        <td th:text="${seller.postcode}"></td>
+        <td th:text="${seller.address}"></td>
+        <td th:text="${seller.detailAddress}"></td>
+        <td th:text="${seller.regidate}"></td>
+        <td th:text="${seller.authority}"></td>
+        <td th:text="${seller.enabled}"></td>
+        <td th:text="${seller.provider}"></td>
+        <td th:text="${seller.providerId}"></td>
+        <td th:text="${seller.isLocked}"></td>
+        <td th:text="${seller.failCount}"></td>
+        <td th:text="${seller.lockTimes}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/noticeboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/language.css}"/>
+</head>
+<body>
+
+    <!-- 헤더랑 네비바 섹션 -->
+    <header>
+        <nav>
+            <div class="logo">NATIONAL PARK</div>
+
+            <!-- 중앙에 위치할 메뉴 -->
+            <ul class="center-menu">
+                <li><a href="#">소개</a></li>
+                <li>
+                    <a href="#">공원 검색</a>
+                    <ul class="dropdown">
+                        <li><a href="#">국립공원</a></li>
+                        <li><a href="#">자연공원</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">물품 대여</a>
+                    <ul class="dropdown">
+                        <li><a href="#">텐트</a></li>
+                        <li><a href="#">자전거</a></li>
+                        <li><a href="#">배낭</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">게시판</a>
+                    <ul class="dropdown">
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">문의사항</a></li>
+                        <li><a href="#">커뮤니티</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- 오른쪽에 위치할 메뉴 -->
+            <div class="language-buttons">
+                <button id="translate-en">English</button>
+                <button id="translate-ja">Japanese</button> <!-- 일본어 버튼으로 변경 -->
+                <button id="translate-ko">Korean</button>
+            </div>
+            <ul class="right-menu">
+                <li><a href="#">로그인</a></li>
+                <li><a href="#">회원가입</a></li>
+            </ul>
+        </nav>
+        <!-- 배경 이미지 위의 텍스트 -->
+        <div class="background-text-wrapper">
+            <h1 style="all: unset; font-size: 50px; color: white;">A NATIONAL PARK</h1>
+            <p>공기 좋고 물 좋은 공원에서 데이트해요!!!</p>
+        </div>
+    </header>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                        <th>액션</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="announcement : ${announcementsPage.content}">
+                    <td th:text="${announcement.title}"></td>
+                    <td th:text="${announcement.username}"></td>
+                    <td th:text="${announcement.postdate}"></td>
+                    <td th:text="${announcement.viewCount}"></td>
+                    <td>
+                        <a th:href="@{/user/noticeDetail/{id}(id=${announcement.idx})}">보기</a>
+                        <a th:href="@{/admin/noticeEdit/{id}(id=${announcement.idx})}">수정</a> |
+                        <a th:href="@{/admin/notice/delete/{id}(id=${announcement.idx})}">삭제</a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+    <!-- 페이징 네비게이션 -->
+    <ul class="pagination">
+        <!-- 이전 페이지 링크 -->
+        <li th:class="${announcementsPage.hasPrevious() ? '' : 'disabled'}">
+            <a th:href="@{/guest/noticeList(page=${announcementsPage.number - 1}, size=${announcementsPage.size})}"
+               th:text="'이전'">이전</a>
+        </li>
+
+        <!-- 페이지 번호 링크 -->
+        <li th:each="i : ${#numbers.sequence(1, announcementsPage.totalPages)}"
+            th:class="${announcementsPage.number + 1 == i ? 'active' : ''}">
+            <a th:href="@{/guest/noticeList(page=${i - 1}, size=${announcementsPage.size})}"
+               th:text="${i}">1</a>
+        </li>
+
+        <!-- 다음 페이지 링크 -->
+        <li th:class="${announcementsPage.hasNext() ? '' : 'disabled'}">
+            <a th:href="@{/guest/noticeList(page=${announcementsPage.number + 1}, size=${announcementsPage.size})}"
+               th:text="'다음'">다음</a>
+        </li>
+    </ul>
+
+    <!-- 검색 바 -->
+    <div class="search-container">
+        <form action="/guest/noticeList" method="get">
+            <select name="period">
+                <option value="전체기간">전체기간</option>
+                <!-- 기간 선택 옵션 추가 가능 -->
+            </select>
+
+            <select name="filter">
+                <option value="title">제목</option> <!-- 제목 검색 옵션 -->
+                <option value="content">내용</option> <!-- 내용 검색 옵션 -->
+                <option value="both">제목 및 내용</option> <!-- 제목 및 내용 검색 옵션 -->
+            </select>
+
+            <input type="text" name="search" placeholder="검색어를 입력해 주세요"/>
+
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
+
+            <div class="button-container">
+                <a href="/admin/noticeWrite" class="write-button">글쓰기</a>
+                <a href="/guest/noticeList" class="write-button">목록으로</a>
+            </div>
+
+
+    <!-- 풋터 섹션 -->
+    <footer>
+        <p>풋터입니다. 추가 사항을 입력하세요.</p>
+        <ul>
+            <li>항목 1</li>
+            <li>항목 2</li>
+            <li>항목 3</li>
+            <li>항목 4</li>
+        </ul>
+        <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+    </footer>
+    <script th:src="@{/js/jQuery.js}"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+        var originalTexts = {}; // 원본 텍스트를 저장할 객체
+
+        // HTML 엔티티를 디코딩하는 함수
+        function decodeHTMLEntities(text) {
+            var textarea = document.createElement("textarea");
+            textarea.innerHTML = text;
+            return textarea.value;
+        }
+
+        // 텍스트를 번역하는 함수
+        function translateText(text, targetLang, callback) {
+            if (text.trim() === "") {
+                callback(text); // 텍스트가 비어있다면 그대로 반환
+                return;
+            }
+
+            $.ajax({
+                url: '/translate', // 번역 API 요청 URL
+                type: 'GET',       // HTTP 요청 방식 (GET)
+                data: { text: text, targetLang: targetLang }, // 번역할 텍스트와 대상 언어
+                success: function (data) {
+                    if (data && data.trim() !== "") {
+                        callback(decodeHTMLEntities(data)); // HTML 엔티티 디코딩 후 콜백 함수로 전달
+                    } else {
+                        callback(text); // 번역이 실패했을 경우 원본 텍스트를 그대로 사용
+                    }
+                },
+                error: function () {
+                    console.error("번역 오류 발생:", text); // 콘솔에 오류 표시
+                    callback(text); // 오류 시 원본 텍스트 사용
+                }
+            });
+        }
+
+        // 페이지의 모든 텍스트를 번역하는 함수
+        function translatePage(targetLang) {
+            console.log("번역 대상 언어:", targetLang); // 로그로 번역할 언어 표시
+
+            // body 내 모든 텍스트 노드를 선택 (입력 요소 제외)
+            $('body *').contents().filter(function() {
+                return this.nodeType === Node.TEXT_NODE && this.nodeValue.trim() !== '';
+            }).each(function (index, element) {
+                var textNode = $(element);
+                var originalText = textNode.text().trim(); // 텍스트의 공백 제거
+
+                if (originalText.length > 0) {
+                    // 처음 번역할 때 원본 텍스트 저장
+                    if (!originalTexts[index]) {
+                        originalTexts[index] = originalText;
+                    }
+
+                    // 번역 요청을 수행
+                    translateText(originalTexts[index], targetLang, function (translatedText) {
+                        textNode[0].nodeValue = translatedText; // 번역된 텍스트로 변경
+                    });
+                }
+            });
+        }
+        // 텍스트를 번역하는 함수
+    function translateText(text, targetLang, callback) {
+        if (text.trim() === "") {
+            callback(text); // 텍스트가 비어있다면 그대로 반환
+            return;
+        }
+
+        console.log("번역할 텍스트:", text);  // 번역 전 텍스트를 콘솔에 출력
+
+        $.ajax({
+            url: '/translate', // 번역 API 요청 URL
+            type: 'GET',       // HTTP 요청 방식 (GET)
+            data: { text: text, targetLang: targetLang }, // 번역할 텍스트와 대상 언어
+            success: function (data) {
+                console.log("번역된 텍스트:", data);  // 번역된 텍스트를 콘솔에 출력
+                if (data && data.trim() !== "") {
+                    callback(decodeHTMLEntities(data)); // HTML 엔티티 디코딩 후 콜백 함수로 전달
+                } else {
+                    callback(text); // 번역이 실패했을 경우 원본 텍스트를 그대로 사용
+                }
+            },
+            error: function () {
+                console.error("번역 오류 발생:", text); // 콘솔에 오류 표시
+                callback(text); // 오류 시 원본 텍스트 사용
+            }
+        });
+    }
+
+        // 페이지를 한국어 원본으로 복원하는 함수
+        function resetPage() {
+            $('body *').contents().filter(function() {
+                return this.nodeType === Node.TEXT_NODE && this.nodeValue.trim() !== '';
+            }).each(function (index, element) {
+                var textNode = $(element);
+                if (originalTexts[index]) {
+                    textNode[0].nodeValue = originalTexts[index]; // 원본 텍스트로 복원
+                }
+            });
+        }
+
+        // 영어로 번역 버튼 클릭 시
+        $('#translate-en').on('click', function () {
+            translatePage('en');
+        });
+
+        // 일본어로 번역 버튼 클릭 시
+        $('#translate-ja').on('click', function () {
+            translatePage('ja');
+        });
+
+        // 한국어로 복원 버튼 클릭 시
+        $('#translate-ko').on('click', function () {
+            resetPage();
+        });
+    });
+    </script>
+</body>
+</html>

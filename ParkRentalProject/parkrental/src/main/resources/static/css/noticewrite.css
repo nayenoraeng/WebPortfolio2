@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* 버튼 그룹을 가로로 배치 */
+.btn-group {
+    display: flex;
+    justify-content: flex-start;  /* 버튼들을 왼쪽 정렬 */
+    gap: 10px;  /* 버튼 사이에 간격 추가 */
+}
+
+button {
+    padding: 10px 20px; /* 버튼 크기를 줄여서 세로 높이 감소 */
+    background-color: #f26D3D;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    flex: 1; /* 버튼들이 같은 크기를 차지하게 만듦 */
+    max-width: 150px; /* 버튼의 최대 너비 제한 */
+}
+
+button:hover {
+    background-color: #f26D3D;
+}
+
+/* 보조 버튼 스타일 */
+.btn-secondary {
+    background-color: #f26D3D;
+}
+
+.btn-secondary:hover {
+    background-color: #f26D3D;
+}

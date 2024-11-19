@@ -1,0 +1,130 @@
+/* 페이지 전체에 적용할 레이아웃 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* 페이지 가운데 정렬 */
+.container {
+    max-width: 1200px; /* 화면 너비 제한 */
+    margin: 0 auto;    /* 자동으로 가운데 정렬 */
+    padding: 20px;     /* 양쪽에 기본적인 여백 */
+}
+/* 텍스트만 가운데 정렬 */
+.store-header, 
+.delivery-info {
+    text-align: center;
+}
+
+ /* 기타 스타일 */
+ .store-header {
+    padding: 10px;
+    background: #f2f2f2;
+    border-bottom: 1px solid #ddd;
+}
+
+.store-info h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.store-info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.more-info-btn {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background: #eee;
+    border: none;
+    border-radius: 5px;
+}
+
+.order-btns button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delivery-info {
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.min-order p:first-child {
+    color: #666;
+}
+
+.delivery-options {
+    margin-top: 10px;
+}
+
+.delivery-type {
+    margin-bottom: 10px;
+}
+
+.strike {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.membership {
+    background: #dff6ff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #0073e6;
+}
+
+.recommend-menu {
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.recommend-menu h2 {
+    margin: 0 0 10px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.menu-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.menu-info p {
+    margin: 5px 0;
+}
+.menu-checkbox {
+    margin-right: 10px;
+}
+
+.menu-info {
+    flex-grow: 1;
+}
+
+.cart-btn {
+    background-color: #00c2b0;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

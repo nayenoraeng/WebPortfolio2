@@ -1,0 +1,146 @@
+
+.menu-icon {
+    font-size: 24px;
+}
+
+/* 부모 요소가 flexbox를 사용할 경우 */
+.search-bar {
+    display: flex;
+    justify-content: center; /* 검색 바와 버튼을 중앙으로 정렬 */
+    align-items: center; /* 수직으로 중앙 정렬 */
+    margin: 0 auto; /* 양쪽 여백을 자동으로 설정하여 중앙 배치 */
+}
+
+.search-bar input {
+    padding: 5px;
+    width: 300px;
+    border: none;
+    border-radius: 4px;
+}
+
+.search-bar button {
+    background-color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    margin-left: 5px; /* 입력창과 버튼 간 여백 */
+}
+
+
+.cart {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    background-color: lightgray;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+
+.step.active {
+    background-color: #6200ea;
+}
+
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 10px;
+}
+
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.item-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.recommendations {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.recommendation-items {
+    display: flex;
+    justify-content: space-between;
+}
+
+.recommendation-item {
+    width: 22%;
+    text-align: center;
+}
+
+.recommendation-item img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+footer {
+    padding: 10px;
+    background-color: #eaeaea;
+    text-align: center;
+}
+.cart-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.cart-items {
+    flex: 3;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-right: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.summary {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+}
+
+.summary p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.summary button {
+    width: 100%;
+    background-color: #6200ea;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

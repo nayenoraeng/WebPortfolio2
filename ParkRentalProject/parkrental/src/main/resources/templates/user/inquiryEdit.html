@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}" />
+    <link rel="stylesheet" th:href="@{/css/inquiryboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/inquirywrite.css}" />
+    <script>
+        function confirmUpdate() {
+            return confirm("정말 수정하시겠습니까?");
+        }
+    </script>
+</head>
+<body>
+
+    <!-- 헤더랑 네비바 섹션 -->
+    <header>
+        <nav>
+            <div class="logo">NATIONAL PARK</div>
+
+            <!-- 중앙에 위치할 메뉴 -->
+            <ul class="center-menu">
+                <li><a href="#">소개</a></li>
+                <li>
+                    <a href="#">공원 검색</a>
+                    <ul class="dropdown">
+                        <li><a th:href="@{/ParkList?category=natural}">자연/휴양 공원</a></li>
+                        <li><a th:href="@{/ParkList?category=urban}">도시 생활 공원</a></li>
+                        <li><a th:href="@{/ParkList?category=special}">특수 목적 공원</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">물품 대여</a>
+                    <ul class="dropdown">
+                        <li><a href="#">텐트</a></li>
+                        <li><a href="#">자전거</a></li>
+                        <li><a href="#">배낭</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">게시판</a>
+                    <ul class="dropdown">
+                        <li><a href="/guest/noticeList">공지사항</a></li>
+                        <li><a href="/guest/inquiryList">문의사항</a></li>
+                        <li><a href="#">커뮤니티</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- 오른쪽에 위치할 메뉴 -->
+            <ul class="right-menu">
+                <!-- Translation buttons for the whole page -->
+                <li class="language-buttons">
+                    <button id="translate-en">English</button>
+                    <button id="translate-ja">Japanese</button> <!-- 일본어 버튼으로 변경 -->
+                    <button id="translate-ko">Korean</button>
+                </li>
+
+                <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Login}">로그인</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{/guest/Signup}">회원가입</a></li>
+                <!-- 로그인 시 메뉴 변경 -->
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/guest/Logout}" onclick="deleteJWTCookie(); return confirm('로그아웃하시겠습니까?')">로그아웃</a>
+                </li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/userpage}">마이페이지</a></li>
+                <li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/seller/sellerpage}">판매자페이지</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/userlist}">회원관리</a></li>
+            </ul>
+        </nav>
+        <!-- 배경 이미지 위의 텍스트 -->
+        <div class="background-text-wrapper">
+            <h1 style="all: unset; font-size: 50px; color: white;">A NATIONAL PARK</h1>
+            <p>공기 좋고 물 좋은 공원에서 데이트해요!!!</p>
+        </div>
+    </header>
+    <br/><br/><br/>
+    <form th:action="@{/user/inquiryEditPro}" method="post" enctype="multipart/form-data">
+        <div class="container">
+            <h1>수정</h1>
+            <input type="hidden" name="idx" th:value="${inquiryRequest.idx}">
+            <!-- 게시판 선택 -->
+            <div class="form-group">
+                <label for="username">작성자</label>
+                <input type="text" id="username" th:value="*{username}" placeholder="작성자." readonly/>
+            </div>
+
+            <!-- 제목 입력 -->
+            <div class="form-group">
+                <label for="title">제목을 입력해 주세요.</label>
+                <input type="text" th:field="${inquiryRequest.title}" id="title" placeholder="제목을 입력해 주세요.">
+            </div>
+
+            <!-- 내용 입력 -->
+            <div class="form-group">
+                <label for="content">내용을 입력해 주세요.</label>
+                <textarea id="content" th:field="${inquiryRequest.content}" rows="10" placeholder="내용을 입력해 주세요." required>${updatePost.content}</textarea>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="form-group">
+                <label for="file">첨부 파일</label>
+                <input type="file" class="form-control-file" id="file" name="file"/>
+                <img id="imagePreview" class="img-preview" src="" alt="이미지 미리보기" style="display:none;"/>
+            </div>
+
+            <div class="form-group">
+                <label for="inquiryPassword">비밀번호를 입력해 주세요.</label>
+                <input type="password" th:field="${inquiryRequest.inquiryPassword}" id="inquiryPassword" name="inquiryPassword" />
+            </div>
+
+            <div class="form-group btn-group">
+                <button type="submit"  onclick="return confirmUpdate();" class="btn btn-primary btn-custom">수정</button>
+                <button type="button" class="btn btn-secondary btn-custom" onclick="location.href='/guest/inquiryList'">목록 바로가기</button>
+            </div>
+        </div>
+    </form>
+
+    <br/><br/><br/>
+    <div th:if="${errors}" class="error">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+        </ul>
+    </div>
+
+
+    <!-- 풋터 섹션 -->
+    <footer>
+        <p>풋터입니다. 추가 사항을 입력하세요.</p>
+        <ul>
+            <li>항목 1</li>
+            <li>항목 2</li>
+            <li>항목 3</li>
+            <li>항목 4</li>
+        </ul>
+        <p>Copyright © 2023 한화시스템(주). 모든 권리는 보유됩니다.</p>
+    </footer>
+
+</body>
+</html>
